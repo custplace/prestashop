@@ -1,0 +1,7 @@
+cusplace_api_post:
+    path: custplace/{id_order}/sendinvit
+    methods: [GET]
+    defaults:
+      _controller: 'custplace\Controller\CustplaceController::sendInvitation'
+    requirements:
+      id_order: .+

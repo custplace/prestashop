@@ -1,0 +1,35 @@
+<br>
+<div id='adminorders' class='card'>
+    <header class='card-header'>
+        <h3 class='card-header-title'>{{ 'Sollicitation des avis Custplace'|trans({}, 'Modules.Custplace.Custplace') }}</h3>
+    </header>
+    <div class='card-body'>
+        <div>
+            <label> </label>
+        </div>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th class='table-head-date'>{{ "Date d'envoi" |trans({}, 'Modules.Custplace.Custplace') }} </th>
+                    <th class='table-head-date'>{{ 'Statut' |trans({}, 'Modules.Custplace.Custplace') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for value in values %}
+                    <tr>
+                        <td> {{ value.dateRequest }}  </td>
+                        <td>
+                            {% if value.status_order == "success" %}
+                                <div style="background-color:green; border-radius:30px;" class='text-center text-white'> {{ value.status_order}} </div>
+                            {% elseif value.status_order == "error" %}
+                                <div style="background-color:red; border-radius:30px;" class='text-center text-white'> {{ value.status_order}} </div>
+                            {% else %}
+                                <div style="background-color:orange; border-radius:30px;" class='text-center text-white'> {{ value.status_order}} </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

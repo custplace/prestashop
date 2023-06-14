@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>custplace</name>
+    <displayName><![CDATA[Custplace.com]]></displayName>
+    <version><![CDATA[1.1.0]]></version>
+    <description><![CDATA[Custplace.com est une plateforme web de gestion d'avis clients et d'enquêtes de satisfaction.]]></description>
+    <author><![CDATA[Custplace]]></author>
+    <tab><![CDATA[advertising_marketing]]></tab>
+	<confirmUninstall><![CDATA[Voulez-vous vraiment le désinstaller ?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+	<limited_countries></limited_countries>
+</module>
