@@ -24,4 +24,4 @@
  *}
 
 <br>
-<div id="cust-widget-note" data-id="{$data_id}" data-layout="brandLogo"></div>
+<div id="cust-widget-note" data-id="{$data_id}" data-layout="footerBottom" style="margin-bottom: 10px !important;"></div>
