@@ -29,7 +29,7 @@ namespace custplace\Controller;
 use Custplace;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 
-require_once '' . _PS_MODULE_DIR_ . 'custplace/Custplace.php';
+require_once '' . _PS_MODULE_DIR_ . 'custplace/custplace.php';
 
 class CustplaceController extends FrameworkBundleAdminController
 {
