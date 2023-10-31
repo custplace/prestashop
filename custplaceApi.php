@@ -39,32 +39,38 @@ class CustplaceApi
     public function sendInvitation($body)
     {
         $url = self::ENDPOINT_BASE . $this->idClient . '/invitations';
+        
         $header = [
             'Cache-Control: no-cache',
             'Content-type: application/json',
             'Accept: application/json',
             'Authorization: Bearer ' . $this->apiKey,
         ];
+        
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($body));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        
         $resp = curl_exec($curl);
+        
         $resp_json = json_decode($resp);
+        
         $response = [
             'status_order' => 'pending',
             'sollicitation_id' => null,
         ];
-        if (isset($resp_json->id)) {
+        
+        if (isset($resp_json->code) && $resp_json->code != 'success') {
+            $response['status_order'] = 'error';
+        } 
+        elseif (!empty($resp_json->id)) {
+            $response['status_order'] = 'success';
             $response['sollicitation_id'] = $resp_json->id;
         }
-        if ($resp_json->code != 'success') {
-            $response['status_order'] = 'error';
-        } else {
-            $response['status_order'] = 'success';
-        }
+        
         curl_close($curl);
 
         return $response;

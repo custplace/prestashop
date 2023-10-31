@@ -24,4 +24,4 @@
  *}
 
 <br>
-<div id="custplace-product-reviews" data-client="{$data_id}" data-product="{$product_sku}" data-token="{$custplace_api_key}"></div>
+<div id="custplace-product-details"></div>
