@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="admin711jahdix" source-language="ar-SA" target-language="ar-SA" datatype="plaintext">
+    <body>
+      <trans-unit id="0a9d87167076876ea184fc688b31e188">
+        <source>Custplace.com</source>
+        <target>Custplace.com</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ca2e6a069f65c9c3d1269d14ce26a0c7">
+        <source>Custplace.com est une plateforme web de gestion d'avis clients et d'enquêtes de satisfaction.</source>
+        <target>.هي منصة ويب لإدارة مراجعات العملاء واستطلاعات الرأي Custplace.com</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="19ffd03bda580dea1aa24da4537ecded">
+        <source>Voulez-vous vraiment le désinstaller ?</source>
+        <target>هل أنت متأكد أنك تريد إلغاء تثبيته?</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="653dd8302379306b40277e13d4cbf9a4">
+        <source>Informations de connexion</source>
+        <target>معلومات تسجيل الدخول</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="3ac312800d5926f66f77aea845c69e1d">
+        <source>ID client</source>
+        <target>معرف العميل</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2b263f548b13842c6e9610a3a1e36496">
+        <source>Clé API </source>
+        <target>مفتاح API</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="2cf316173b077e2cfbfa12a9a4ed5110">
+        <source>Delai de sollicitation</source>
+        <target>فترة الالتماس</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="5f1fe455db6e9cab75f31be47d4a301f">
+        <source>jours</source>
+        <target>أيام</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="aed88202e2432ee2a613f9120ef7486b">
+        <source>Enregistrer</source>
+        <target>حفظ</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4b9bfd723f927a07bd6a6159bdce7727">
+        <source>Clé widget</source>
+        <target>مفتاح القطعة</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="ce72ecbaad10834398b0c6344ad5577a">
+        <source>Widget Avis Produit</source>
+        <target>قطعة مراجعات المنتج</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="4bdaae6eac6c5c605b148549710e82ec">
+        <source>Activer le widget avis produit afin d'atteindre les avis de votre clients</source>
+        <target>فعل أداة مراجعة المنتج للوصول إلى تعليقات عملائك </target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="24ace383b70d09954259c15cfeb9b2fd">
+        <source>Oui</source>
+        <target>نعم</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6679e65c932b2c5ad98080ee21a4f0d4">
+        <source>Non</source>
+        <target>لا</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="70c26b8dab2535ed705dd76eef014903">
+        <source>Widget Sceau de confiance</source>
+        <target>قطعة ختم الثقة</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="cd6c3da0df37f0fc9c30c34591a610aa">
+        <source>Activer le widget sceau de confiance</source>
+        <target>تفعيل أداة ختم الثقة</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="f6a08cf837cb30186757f8f463b93296">
+        <source>Clé Widget</source>
+        <target>مفتاح القطعة</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="e266bef846a4daca7c3749fb68c3848a">
+        <source>La commande est envoyée avec success</source>
+        <target>تم إرسال الطلب بنجاح</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="6bc30e9848318cc054d9ecd6dba2648d">
+        <source>Sollicitation des avis Custplace</source>
+        <target>custplace التماس الآراء </target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="fa51d2a09a18d0770bcf8e0c177f9a33">
+        <source>Date Consultation</source>
+        <target>تاريخ الاستشارة</target>
+        <note>Line: </note>
+      </trans-unit>
+      <trans-unit id="87a831bc99060c55b50dbe91c6aab6e9">
+        <source>Statut</source>
+        <target>وضع</target>
+        <note>Line: </note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,13 @@
+{
+    "name": "you/custplace",
+    "description": "Create a route to post the last orders to custplace",
+    "autoload": {
+        "psr-4": {
+            "custplace\\": "src/"
+        }
+    },
+    "config": {
+        "prepend-autoloader": false
+    },
+    "type": "prestashop-module"
+}
