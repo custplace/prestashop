@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   1.2.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Service;

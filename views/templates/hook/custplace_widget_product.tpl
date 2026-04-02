@@ -24,4 +24,4 @@
  *}
 
 <br>
-<div id="custplace-product-reviews" data-client="{$data_id}" data-product="{$product_sku}" data-token="{$custplace_api_key}" data-theme="{$custplace_wap_first_color}" data-stars-color="{$custplace_wap_second_color}" data-sub-ratings="{$custplace_wap_subratings}"></div>
+<div id="custplace-product-reviews" data-client="{$data_id}" data-product="{$product_sku}" data-skus="{$product_skus|escape:'htmlall':'UTF-8'}" data-token="{$custplace_api_key}" data-theme="{$custplace_wap_first_color}" data-stars-color="{$custplace_wap_second_color}" data-sub-ratings="{$custplace_wap_subratings}" data-with-answers="{$custplace_wap_with_answer}"></div>

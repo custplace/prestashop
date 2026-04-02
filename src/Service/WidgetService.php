@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   1.2.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Service;
@@ -180,13 +180,44 @@ class WidgetService
     private function assignProductReviewsVariables(Product $product): void
     {
         $context = Context::getContext();
+        $productSkus = $this->getProductSkus($product, (int) $context->language->id);
         
         $context->smarty->assign('data_id', $this->configService->getClientId());
         $context->smarty->assign('custplace_api_key', $this->configService->getWidgetToken());
         $context->smarty->assign('custplace_wap_first_color', $this->configService->getWidgetPrimaryColor());
         $context->smarty->assign('custplace_wap_second_color', $this->configService->getWidgetSecondaryColor());
         $context->smarty->assign('custplace_wap_subratings', $this->configService->areSubratingsEnabled() ? 'true' : 'false');
+        $context->smarty->assign('custplace_wap_with_answer', $this->configService->areOfficialAnswersEnabled() ? '1' : '0');
         $context->smarty->assign('product_sku', $product->reference);
+        $context->smarty->assign('product_skus', implode(',', $productSkus));
+    }
+
+    /**
+     * Collect base product and combination SKUs for the reviews widget
+     *
+     * @param Product $product
+     * @param int $languageId
+     * @return string[]
+     */
+    private function getProductSkus(Product $product, int $languageId): array
+    {
+        $skus = [];
+
+        if (!empty($product->reference)) {
+            $skus[] = trim((string) $product->reference);
+        }
+
+        foreach ($product->getAttributeCombinations($languageId) as $combination) {
+            if (empty($combination['reference'])) {
+                continue;
+            }
+
+            $skus[] = trim((string) $combination['reference']);
+        }
+
+        $skus = array_values(array_unique(array_filter($skus)));
+
+        return $skus;
     }
 
     /**

@@ -7,7 +7,7 @@ Custplace.com est une plateforme web de gestion d’avis produits/marchand et d�
 Ce module vous permet d'intégrer la sollicitation des avis de vos clients directement dans votre boutique en ligne après chaque commande. Les avis seront accessibles depuis votre compte Custplace et peuvent aussi être affichés dans les fiches de vos produits à l'aide de nos widgets. Voici la liste des Widgets disponible:
 
 - Badge de confiance : Widget affichant la note de votre entreprise
-- ProductReviewBox : Widget affichant la note et les avis de vos produits
+- ProductReviewBox : Widget affichant la note et les avis de vos produits, avec prise en charge du SKU produit principal et des SKU de déclinaisons
 
 ## Installation
 - Télécharger la dernière version du module
@@ -22,7 +22,7 @@ Le module propose plusieurs sections de configuration :
 #### 1. Sollicitation des avis
 - **Activer la sollicitation** : Active/désactive l'envoi automatique d'invitations
 - **ID client** : Votre identifiant client Custplace
-- **Clé API** : Votre clé d'accès API Custplace (cryptée automatiquement)
+- **Clé API** : Votre clé d'accès API Custplace (cryptée automatiquement). Si vous laissez le champ vide lors d'une modification, la valeur enregistrée est conservée
 - **Délai de sollicitation** : Nombre de jours après la commande avant l'envoi (max 30 jours)
 - **ID template d'invitation** : (Optionnel) ID du template d'invitation personnalisé
 - **Catégories exclues** : IDs des catégories séparés par des virgules (ex: 1,2,3). Les commandes contenant des produits de ces catégories ne recevront pas d'invitation
@@ -33,10 +33,12 @@ Le module propose plusieurs sections de configuration :
 
 #### 3. Widget Avis Produits
 - **Widget Avis Produit** : Active/désactive l'affichage des avis produits
-- **Clé Widget** : Clé d'accès pour les widgets (cryptée automatiquement)
+- **Clé Widget** : Clé d'accès pour les widgets (cryptée automatiquement). Si vous laissez le champ vide lors d'une modification, la valeur enregistrée est conservée
 - **Couleur primaire/secondaire** : Personnalisation des couleurs (codes HEX)
 - **Notes détaillées** : Affiche les notes détaillées des enquêtes de satisfaction
+- **Réponses officielles** : Inclut les réponses officielles aux avis produits dans le widget
 - **Note produit global** : Affiche la note globale à côté du nom du produit
+- **SKU des déclinaisons** : Le widget transmet automatiquement le SKU du produit principal ainsi que les SKU de ses déclinaisons via l'attribut `data-skus`
 
 #### 4. Mode Test
 - **Activer le mode test** : Utilise les environnements de test pour l'API et les widgets
@@ -46,6 +48,10 @@ Le module propose plusieurs sections de configuration :
 ## How to use
 Pour utiliser ce module il est necessaire d'avoir un compte Custplace actif.
 Connectez-vous sur votre espace Custplace Manager pour récupérer les accès de connexion (clé API).
+
+### Cache PrestaShop
+
+Après une mise à jour du module ou du template du widget, il peut être nécessaire de vider le cache PrestaShop pour voir les nouveaux attributs HTML et les changements d'intégration côté front.
 
 ## Guide pour développeurs
 

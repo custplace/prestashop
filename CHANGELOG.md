@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-04-01
+
+### ✨ Added
+
+- **Product widget multi-SKU support**: Added `data-skus` generation so the product review widget can query reviews for the main product SKU and its combination SKUs
+- **Official answers option**: Added a new back-office checkbox to include official review answers in the product widget through the `data-with-answers` attribute
+
+### 🔧 Changed
+
+- **Product reviews widget bundle**: Updated the product widget script to `v1.3` to support the new multi-SKU integration options
+- **Product page widget payload**: Extended widget rendering to send combination references alongside the base product reference when available
+
+### 🔒 Security
+
+- **Protected manual invitation action**: Switched manual invitation sending from `GET` to `POST`
+- **CSRF validation**: Added CSRF token generation and verification for manual invitation requests from the order page
+
+### 🐛 Fixed
+
+- **Encrypted token handling in configuration forms**: Prevented stored encrypted API and widget tokens from being re-submitted and encrypted again on save
+- **Secret field UX**: Replaced stored secret values in password inputs with masked placeholders while preserving existing values when fields are left blank
+- **Invitation product SKU resolution**: Invitation payload generation now prefers the ordered combination reference over the parent product reference when a combination SKU exists
+- **Version consistency**: Aligned module version metadata across runtime and module manifest files to `2.1.0`
+
 ## [2.0.0] - 2024-06-22
 
 ### 🎉 Major Release - Complete Configuration Overhaul

@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   1.2.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Repository;
@@ -116,7 +116,7 @@ class CustplaceRepository
             cust.lastname,
             cust.email,
             prod.id_product,
-            prod.reference as prod_ref,
+            COALESCE(NULLIF(prodattr.reference, \'\'), NULLIF(orddet.product_reference, \'\'), prod.reference) as prod_ref,
             orddet.product_name,
             COALESCE(img.id_image, 0) as id_image
         ')
@@ -124,9 +124,10 @@ class CustplaceRepository
         ->innerJoin('customer', 'cust', 'ord.id_customer = cust.id_customer')
         ->innerJoin('order_detail', 'orddet', 'ord.id_order = orddet.id_order')
         ->innerJoin('product', 'prod', 'orddet.product_id = prod.id_product')
+        ->leftJoin('product_attribute', 'prodattr', 'orddet.product_attribute_id = prodattr.id_product_attribute')
         ->leftJoin('image', 'img', 'prod.id_product = img.id_product AND img.cover = 1')
         ->where('ord.id_order = ' . (int)$orderId)
-        ->groupBy('prod.id_product');
+        ->groupBy('orddet.id_order_detail');
 
         return Db::getInstance()->executeS($query);
     }

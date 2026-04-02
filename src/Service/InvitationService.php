@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.0.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Service;
@@ -216,7 +216,7 @@ class InvitationService
      * @param int $orderId
      * @return bool
      */
-    public function shouldTriggerInvitation(int $orderStatusId, int $orderId = null): bool
+    public function shouldTriggerInvitation(int $orderStatusId, ?int $orderId = null): bool
     {
         $triggerStatuses = $this->configService->getTriggerStatuses();
         if (!in_array($orderStatusId, $triggerStatuses)) {

@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   1.2.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Constants;
@@ -33,6 +33,7 @@ class CustplaceConstants
     public const CONFIG_WIDGET_FIRST_COLOR = 'custplace_wap_first_color';
     public const CONFIG_WIDGET_SECOND_COLOR = 'custplace_wap_second_color';
     public const CONFIG_WIDGET_SUBRATINGS = 'custplace_wap_subratings';
+    public const CONFIG_WIDGET_WITH_ANSWER = 'custplace_wap_with_answer';
     public const CONFIG_WIDGET_TITLE_RATING = 'custplace_wap_title_rating';
     
     // Database Table
@@ -54,7 +55,7 @@ class CustplaceConstants
     public const API_ENDPOINT_TEST = 'https://apis.kustplace.com/v3/';
     
     // Widget JavaScript URLs
-    public const WIDGET_PRODUCT_REVIEWS_JS = 'https://widgets.custplace.com/reviews/product/latest/static/js/bundle.js';
+    public const WIDGET_PRODUCT_REVIEWS_JS = 'https://widgets.custplace.com/reviews/product/v1.3/static/js/bundle.js';
     public const WIDGET_TRUST_BADGE_JS = 'https://widgets.custplace.com/rating/v4/embed.js';
     
     // Test Environment Domains

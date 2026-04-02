@@ -27,14 +27,19 @@
 namespace custplace\Controller;
 
 use Custplace;
+use Symfony\Component\HttpFoundation\Request;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 
 require_once '' . _PS_MODULE_DIR_ . 'custplace/custplace.php';
 
 class CustplaceController extends FrameworkBundleAdminController
 {
-    public function sendInvitation($id_order)
+    public function sendInvitation(Request $request, $id_order)
     {
+        if (!$this->isCsrfTokenValid('custplace_send_invitation_' . (int) $id_order, $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
+
         Custplace::prepareInvitationData($id_order);
         $this->addFlash(
             'success',

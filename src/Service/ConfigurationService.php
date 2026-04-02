@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.0.0
+ * @version   2.1.0
  */
 
 namespace Custplace\Service;
@@ -41,7 +41,7 @@ class ConfigurationService
             ),
             CustplaceConstants::CONFIG_API_KEY => Tools::getValue(
                 CustplaceConstants::CONFIG_API_KEY,
-                Configuration::get(CustplaceConstants::CONFIG_API_KEY)
+                ''
             ),
             CustplaceConstants::CONFIG_DELAY_SOLICITATION => Tools::getValue(
                 CustplaceConstants::CONFIG_DELAY_SOLICITATION,
@@ -69,7 +69,7 @@ class ConfigurationService
             ),
             CustplaceConstants::CONFIG_WIDGET_TOKEN => Tools::getValue(
                 CustplaceConstants::CONFIG_WIDGET_TOKEN,
-                Configuration::get(CustplaceConstants::CONFIG_WIDGET_TOKEN)
+                ''
             ),
             CustplaceConstants::CONFIG_WIDGET_FIRST_COLOR => Tools::getValue(
                 CustplaceConstants::CONFIG_WIDGET_FIRST_COLOR,
@@ -82,6 +82,10 @@ class ConfigurationService
             CustplaceConstants::CONFIG_WIDGET_SUBRATINGS => Tools::getValue(
                 CustplaceConstants::CONFIG_WIDGET_SUBRATINGS,
                 Configuration::get(CustplaceConstants::CONFIG_WIDGET_SUBRATINGS)
+            ),
+            CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER => Tools::getValue(
+                CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER,
+                Configuration::get(CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER)
             ),
             CustplaceConstants::CONFIG_WIDGET_TITLE_RATING => Tools::getValue(
                 CustplaceConstants::CONFIG_WIDGET_TITLE_RATING,
@@ -104,7 +108,7 @@ class ConfigurationService
     {
         if ($values[CustplaceConstants::CONFIG_API_ENABLED] == '1') {
             return !empty($values[CustplaceConstants::CONFIG_API_CLIENT]) &&
-                   !empty($values[CustplaceConstants::CONFIG_API_KEY]) &&
+                   (!empty($values[CustplaceConstants::CONFIG_API_KEY]) || $this->hasApiKey()) &&
                    is_numeric($values[CustplaceConstants::CONFIG_API_CLIENT]) &&
                    is_numeric($values[CustplaceConstants::CONFIG_DELAY_SOLICITATION]) &&
                    intval($values[CustplaceConstants::CONFIG_DELAY_SOLICITATION]) <= CustplaceConstants::MAX_DELAY_DAYS;
@@ -122,7 +126,7 @@ class ConfigurationService
     {
         if (isset($values[CustplaceConstants::CONFIG_WIDGET_PRODUCT_REVIEWS]) && 
             $values[CustplaceConstants::CONFIG_WIDGET_PRODUCT_REVIEWS] === '1') {
-            return !empty($values[CustplaceConstants::CONFIG_WIDGET_TOKEN]);
+            return !empty($values[CustplaceConstants::CONFIG_WIDGET_TOKEN]) || $this->hasWidgetToken();
         }
         return true;
     }
@@ -205,6 +209,7 @@ class ConfigurationService
         Configuration::updateValue(CustplaceConstants::CONFIG_WIDGET_FIRST_COLOR, $values[CustplaceConstants::CONFIG_WIDGET_FIRST_COLOR]);
         Configuration::updateValue(CustplaceConstants::CONFIG_WIDGET_SECOND_COLOR, $values[CustplaceConstants::CONFIG_WIDGET_SECOND_COLOR]);
         Configuration::updateValue(CustplaceConstants::CONFIG_WIDGET_SUBRATINGS, $values[CustplaceConstants::CONFIG_WIDGET_SUBRATINGS]);
+        Configuration::updateValue(CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER, $values[CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER]);
         Configuration::updateValue(CustplaceConstants::CONFIG_WIDGET_TITLE_RATING, $values[CustplaceConstants::CONFIG_WIDGET_TITLE_RATING]);
 
         return true;
@@ -294,6 +299,16 @@ class ConfigurationService
     {
         $apiKey = $this->getApiKey();
         return $this->encryptionService->maskForDisplay($apiKey);
+    }
+
+    /**
+     * Check if an API key is already stored
+     *
+     * @return bool
+     */
+    public function hasApiKey(): bool
+    {
+        return $this->getApiKey() !== '';
     }
 
     /**
@@ -387,6 +402,27 @@ class ConfigurationService
     }
 
     /**
+     * Get widget token for display (masked)
+     *
+     * @return string
+     */
+    public function getWidgetTokenForDisplay(): string
+    {
+        $token = $this->getWidgetToken();
+        return $this->encryptionService->maskForDisplay($token);
+    }
+
+    /**
+     * Check if a widget token is already stored
+     *
+     * @return bool
+     */
+    public function hasWidgetToken(): bool
+    {
+        return $this->getWidgetToken() !== '';
+    }
+
+    /**
      * Get widget primary color
      *
      * @return string
@@ -414,6 +450,16 @@ class ConfigurationService
     public function areSubratingsEnabled(): bool
     {
         return Configuration::get(CustplaceConstants::CONFIG_WIDGET_SUBRATINGS) === '1';
+    }
+
+    /**
+     * Check if official answers should be included
+     *
+     * @return bool
+     */
+    public function areOfficialAnswersEnabled(): bool
+    {
+        return Configuration::get(CustplaceConstants::CONFIG_WIDGET_WITH_ANSWER) === '1';
     }
     
     /**

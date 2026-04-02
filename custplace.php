@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.0.0
+ * @version   2.1.0
  */
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -37,7 +37,7 @@ class Custplace extends Module
     public function __construct()
     {
         $this->name = 'custplace';
-        $this->version = '2.0.0';
+        $this->version = '2.1.0';
         $this->tab = 'advertising_marketing';
         $this->author = 'Custplace';
         $this->need_instance = 0;
@@ -114,7 +114,8 @@ class Custplace extends Module
     public function hookDisplayAdminOrderSideBottom(array $params): string
     {
         try {
-            $custplaceData = $this->repository->getByOrderId((int)$params['id_order']);
+            $orderId = (int) $params['id_order'];
+            $custplaceData = $this->repository->getByOrderId($orderId);
 
             // Debug: If no data, show empty panel with note
             if (empty($custplaceData)) {
@@ -124,7 +125,13 @@ class Custplace extends Module
                 ]];
             }
 
-            return $this->widgetService->renderAdminOrderPanel($custplaceData);
+            $content = $this->widgetService->renderAdminOrderPanel($custplaceData);
+
+            if ($this->invitationService->canSendManualInvitation($orderId)) {
+                $content .= $this->renderManualInvitationForm($orderId);
+            }
+
+            return $content;
         } catch (\Exception $e) {
             // Try to create table if it doesn't exist
             if (strpos($e->getMessage(), 'doesn\'t exist') !== false) {
@@ -218,16 +225,63 @@ class Custplace extends Module
      */
     private function addManualInvitationButton(int $orderId, $actionsBarButtonsCollection): void
     {
-        $router = $this->get('router');
-        $custplacePostOrder = $router->generate('cusplace_api_post', ['id_order' => $orderId]);
+        $formId = $this->getManualInvitationFormId($orderId);
 
         $actionsBarButtonsCollection->add(
             new \PrestaShopBundle\Controller\Admin\Sell\Order\ActionsBarButton(
                 'btn-success',
-                ['href' => $custplacePostOrder],
+                [
+                    'href' => '#',
+                    'onclick' => "document.getElementById('{$formId}').submit(); return false;",
+                ],
                 $this->trans("Solicitez l'avis du client", [], 'Modules.Custplace.Custplace')
             )
         );
+    }
+
+    /**
+     * Render hidden POST form for manual invitation action
+     *
+     * @param int $orderId
+     * @return string
+     */
+    private function renderManualInvitationForm(int $orderId): string
+    {
+        $router = $this->get('router');
+        $actionUrl = $router->generate('cusplace_api_post', ['id_order' => $orderId]);
+        $formId = $this->getManualInvitationFormId($orderId);
+        $csrfToken = $this->get('security.csrf.token_manager')
+            ->getToken($this->getManualInvitationCsrfId($orderId))
+            ->getValue();
+
+        return sprintf(
+            '<form id="%s" method="post" action="%s" style="display:none;"><input type="hidden" name="_token" value="%s"></form>',
+            htmlspecialchars($formId, ENT_QUOTES, 'UTF-8'),
+            htmlspecialchars($actionUrl, ENT_QUOTES, 'UTF-8'),
+            htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8')
+        );
+    }
+
+    /**
+     * Get DOM form id for manual invitation action
+     *
+     * @param int $orderId
+     * @return string
+     */
+    private function getManualInvitationFormId(int $orderId): string
+    {
+        return 'custplace-send-invitation-' . $orderId;
+    }
+
+    /**
+     * Get CSRF token id for manual invitation action
+     *
+     * @param int $orderId
+     * @return string
+     */
+    private function getManualInvitationCsrfId(int $orderId): string
+    {
+        return 'custplace_send_invitation_' . $orderId;
     }
 
     /**
@@ -314,6 +368,12 @@ class Custplace extends Module
     {
         $default_lang = (int) Configuration::get('PS_LANG_DEFAULT');
         $config_values = $this->getConfigFieldsValues();
+        $apiKeyPlaceholder = $this->configService->hasApiKey()
+            ? $this->trans('Laisser vide pour conserver la clé actuelle (%masked%)', ['%masked%' => $this->configService->getApiKeyForDisplay()], 'Modules.Custplace.Custplace')
+            : $this->trans('Saisissez votre clé API Custplace', [], 'Modules.Custplace.Custplace');
+        $widgetTokenPlaceholder = $this->configService->hasWidgetToken()
+            ? $this->trans('Laisser vide pour conserver la clé actuelle (%masked%)', ['%masked%' => $this->configService->getWidgetTokenForDisplay()], 'Modules.Custplace.Custplace')
+            : $this->trans('Saisissez votre clé widget Custplace', [], 'Modules.Custplace.Custplace');
         $fields_form = [
             'form' => [
                 'legend' => [
@@ -351,7 +411,7 @@ class Custplace extends Module
                         'label' => $this->trans('Clé API ', [], 'Modules.Custplace.Custplace'),
                         'name' => 'custplace_api_key',
                         'required' => true,
-                        'html_content' => '<input type="password" autocomplete="off" name="custplace_api_key" class="form-control" value="' . $config_values['custplace_api_key'] . '">',
+                        'html_content' => '<input type="password" autocomplete="new-password" name="custplace_api_key" class="form-control" value="" placeholder="' . htmlspecialchars($apiKeyPlaceholder, ENT_QUOTES, 'UTF-8') . '">',
                     ],
                     [
                         'type' => 'text',
@@ -457,7 +517,7 @@ class Custplace extends Module
                         'label' => $this->trans('Clé Widget ', [], 'Modules.Custplace.Custplace'),
                         'name' => 'custplace_wap_token',
                         'required' => true,
-                        'html_content' => '<input type="password" autocomplete="off" name="custplace_wap_token" class="form-control" value="' . $config_values['custplace_wap_token'] . '">',
+                        'html_content' => '<input type="password" autocomplete="new-password" name="custplace_wap_token" class="form-control" value="" placeholder="' . htmlspecialchars($widgetTokenPlaceholder, ENT_QUOTES, 'UTF-8') . '">',
                     ],
                     [
                         'type' => 'text',
@@ -479,6 +539,25 @@ class Custplace extends Module
                         'name' => 'custplace_wap_subratings',
                         'is_bool' => true,
                         'desc' => $this->trans('Afficher les notes des réponses détaillés si vos produits font l\objet d\une enquête de saisfaction.', [], 'Modules.Custplace.Custplace'),
+                        'values' => [
+                            [
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->trans('Oui', [], 'Modules.Custplace.Custplace'),
+                            ],
+                            [
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->trans('Non', [], 'Modules.Custplace.Custplace'),
+                            ],
+                        ],
+                    ],
+                    [
+                        'type' => 'switch',
+                        'label' => $this->trans('Réponses officielles', [], 'Modules.Custplace.Custplace'),
+                        'name' => 'custplace_wap_with_answer',
+                        'is_bool' => true,
+                        'desc' => $this->trans('Inclure les réponses officielles dans les avis produits.', [], 'Modules.Custplace.Custplace'),
                         'values' => [
                             [
                                 'id' => 'active_on',
