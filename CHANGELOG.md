@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-04-23
+
+### 🐛 Fixed
+
+- **Linux compatibility**: Fixed the bootstrap include path to load `custplaceApi.php` with the correct filename casing on case-sensitive servers
+- **Customer name fallback**: Invitations now reuse `lastname` as `firstname` when the first name is empty, preventing API rejection for stores with malformed customer name data
+- **Fallback observability**: Added an informative PrestaShop log entry when the firstname fallback is applied
+
 ## [2.1.0] - 2026-04-01
 
 ### ✨ Added

@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.0
+ * @version   2.1.1
  */
 
 namespace Custplace\Service;
@@ -112,7 +112,7 @@ class InvitationService
             ];
         }
 
-        return $invitation;
+        return $this->normalizeInvitationCustomerNames($invitation, $orderId);
     }
 
     /**
@@ -278,6 +278,8 @@ class InvitationService
                 }
             }
             
+            $invitationData = $this->normalizeInvitationCustomerNames($invitationData, $orderId);
+
             // Validate the modified data to ensure it has required fields
             $requiredFields = ['order_ref', 'firstname', 'lastname', 'email', 'type', 'send_at', 'lang', 'products'];
             foreach ($requiredFields as $field) {
@@ -292,6 +294,41 @@ class InvitationService
             // Return original data if hook execution fails
         }
         
+        return $invitationData;
+    }
+
+    /**
+     * Ensure invitation payload contains a usable firstname.
+     *
+     * Some stores save the customer's full name into lastname while leaving
+     * firstname empty. Custplace requires firstname, so reuse lastname as a
+     * fallback instead of blocking the invitation.
+     *
+     * @param array $invitationData
+     * @param int|null $orderId
+     * @return array
+     */
+    private function normalizeInvitationCustomerNames(array $invitationData, ?int $orderId = null): array
+    {
+        $firstname = isset($invitationData['firstname']) ? trim((string) $invitationData['firstname']) : '';
+        $lastname = isset($invitationData['lastname']) ? trim((string) $invitationData['lastname']) : '';
+
+        $invitationData['firstname'] = $firstname;
+        $invitationData['lastname'] = $lastname;
+
+        if ($firstname === '' && $lastname !== '') {
+            $invitationData['firstname'] = $lastname;
+
+            \PrestaShopLogger::addLog(
+                'Custplace API Notice: Empty firstname fallback applied from lastname'
+                . ($orderId !== null ? ' for order ID ' . $orderId : ''),
+                \PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
+                null,
+                'Module',
+                'custplace'
+            );
+        }
+
         return $invitationData;
     }
     

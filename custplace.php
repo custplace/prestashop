@@ -6,13 +6,13 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.0
+ * @version   2.1.1
  */
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once dirname(__FILE__) . '/custplaceapi.php';
+require_once dirname(__FILE__) . '/custplaceApi.php';
 require_once dirname(__FILE__) . '/src/Constants/CustplaceConstants.php';
 require_once dirname(__FILE__) . '/src/Repository/CustplaceRepository.php';
 require_once dirname(__FILE__) . '/src/Service/EncryptionService.php';
@@ -37,7 +37,7 @@ class Custplace extends Module
     public function __construct()
     {
         $this->name = 'custplace';
-        $this->version = '2.1.0';
+        $this->version = '2.1.1';
         $this->tab = 'advertising_marketing';
         $this->author = 'Custplace';
         $this->need_instance = 0;
