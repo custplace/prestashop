@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.1
+ * @version   2.1.2
  */
 
 require_once dirname(__FILE__) . '/src/Constants/CustplaceConstants.php';
@@ -49,8 +49,9 @@ class CustplaceApi
             'Content-type: application/json',
             'Accept: application/json',
             'Authorization: Bearer ' . $this->apiKey,
-            'User-Agent: PrestaShop/' . _PS_VERSION_,
+            'User-Agent: PrestaShop/' . _PS_VERSION_ . ' Custplace/' . CustplaceConstants::MODULE_VERSION,
             'X-Source-Id: 39',
+            'X-Module-Version: ' . CustplaceConstants::MODULE_VERSION,
         ];
         
         $curl = curl_init();

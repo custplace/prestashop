@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.1
+ * @version   2.1.2
  */
 
 namespace Custplace\Service;
@@ -301,8 +301,9 @@ class InvitationService
      * Ensure invitation payload contains a usable firstname.
      *
      * Some stores save the customer's full name into lastname while leaving
-     * firstname empty. Custplace requires firstname, so reuse lastname as a
-     * fallback instead of blocking the invitation.
+     * firstname empty or with placeholder values like ".". Custplace requires
+     * firstname, so reuse lastname as a fallback instead of blocking the
+     * invitation.
      *
      * @param array $invitationData
      * @param int|null $orderId
@@ -316,11 +317,13 @@ class InvitationService
         $invitationData['firstname'] = $firstname;
         $invitationData['lastname'] = $lastname;
 
-        if ($firstname === '' && $lastname !== '') {
+        $normalizedFirstname = trim($firstname, ". \t\n\r\0\x0B");
+
+        if ($normalizedFirstname === '' && $lastname !== '') {
             $invitationData['firstname'] = $lastname;
 
             \PrestaShopLogger::addLog(
-                'Custplace API Notice: Empty firstname fallback applied from lastname'
+                'Custplace API Notice: Missing firstname fallback applied from lastname'
                 . ($orderId !== null ? ' for order ID ' . $orderId : ''),
                 \PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
                 null,

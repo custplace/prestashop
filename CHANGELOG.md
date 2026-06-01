@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2026-06-01
+
+### ✨ Added
+
+- **API request version metadata**: All Custplace API requests now include the module version in the request headers for easier traceability
+
+### 🐛 Fixed
+
+- **Firstname placeholder fallback**: Customer first names containing only placeholder dots such as `.` or `...` now fall back to `lastname` before sending invitations
+
 ## [2.1.1] - 2026-04-23
 
 ### 🐛 Fixed

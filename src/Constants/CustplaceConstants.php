@@ -6,13 +6,15 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.1
+ * @version   2.1.2
  */
 
 namespace Custplace\Constants;
 
 class CustplaceConstants
 {
+    public const MODULE_VERSION = '2.1.2';
+
     // Order Status IDs (Default values)
     public const ORDER_STATUS_PAYMENT_ACCEPTED = 2;
     public const ORDER_STATUS_REMOTE_PAYMENT_ACCEPTED = 11;

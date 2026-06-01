@@ -6,7 +6,7 @@
  * @copyright THIRD VOICE 2023 - https://fr.custplace.com
  * @license   see file: LICENSE.txt
  *
- * @version   2.1.1
+ * @version   2.1.2
  */
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -37,7 +37,7 @@ class Custplace extends Module
     public function __construct()
     {
         $this->name = 'custplace';
-        $this->version = '2.1.1';
+        $this->version = '2.1.2';
         $this->tab = 'advertising_marketing';
         $this->author = 'Custplace';
         $this->need_instance = 0;
